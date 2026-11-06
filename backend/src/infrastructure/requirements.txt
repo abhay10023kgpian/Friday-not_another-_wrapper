@@ -3,3 +3,4 @@ psycopg
 python-dotenv
 fastapi
 uvicorn
+confluent-kafka
