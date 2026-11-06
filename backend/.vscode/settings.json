@@ -1,0 +1,11 @@
+{
+  "python.defaultInterpreterPath": "C:/Users/abhay/Desktop/WEB dev/Projects/Friday/backend/myvenv/Scripts/python.exe",
+
+  // Tells Pylance (red-line checker) where to resolve imports from
+  "python.analysis.extraPaths": ["${workspaceFolder}"],
+
+  // Sets PYTHONPATH in every terminal you open in VS Code
+  "terminal.integrated.env.windows": {
+    "PYTHONPATH": "${workspaceFolder}"
+  }
+}

@@ -1,0 +1,26 @@
+from pathlib import Path
+from sqlalchemy import text
+from connections import engine
+
+def init_db():
+    # Load the SQL file
+    migration_file = (
+    Path(__file__).resolve().parent
+    / "migrations"
+    / "001_init.up.sql"
+    )
+    sql_file = migration_file.read_text(encoding="utf-8")
+
+    # engine.begin() auto-commits the CREATE and INSERT statements
+    with engine.begin() as connection:
+        connection.execute(text(sql_file))
+        print("Table created and test data inserted!")
+
+    # Verify by querying the data back
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT * FROM products;"))
+        for row in result.mappings():
+            print(dict(row))
+
+if __name__ == "__main__":
+    init_db()

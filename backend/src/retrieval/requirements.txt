@@ -1,0 +1,15 @@
+langchain
+langgraph
+langchain_community
+langchain_openai
+langchain_text_splitters
+python-dotenv
+faiss-cpu
+pypdf
+langchain_google_genai
+pydantic
+langchain_groq
+pinecone
+langchain_elasticsearch
+pinecone_text
+

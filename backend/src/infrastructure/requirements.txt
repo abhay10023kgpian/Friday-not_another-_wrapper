@@ -1,0 +1,5 @@
+sqlalchemy
+psycopg
+python-dotenv
+fastapi
+uvicorn

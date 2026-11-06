@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "friday-backend"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+# setuptools auto-discovers packages with __init__.py inside src/
+[tool.setuptools.packages.find]
+where = ["."]
+
