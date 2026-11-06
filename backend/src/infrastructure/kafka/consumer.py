@@ -35,7 +35,7 @@ class KafkaConsumer:
 if __name__ == "__main__":
     bootstrap_servers = "localhost:9092"
     group_id = "my_group"
-    topics = ["shoes"]
+    topics = ["ragdb.public.products"]
     
     consumer = KafkaConsumer(bootstrap_servers, group_id, topics)
     

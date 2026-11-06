@@ -2,13 +2,18 @@ from connections import engine
 from sqlalchemy import text
 
 def check_database_connection():
-    sql_query = """ALTER SYSTEM SET wal_level = logical;
-                ALTER SYSTEM SET max_wal_senders = 10;
-                ALTER SYSTEM SET max_replication_slots = 10;
-                """
+    sql_query = """
+    INSERT INTO products (
+    product_name, product_id, brand_name, price, color, size
+    )
+    VALUES
+    
+    ('Air Max 90', 'n-a-01fab12', 'Nike', 130.00, 'White/Black', '10')
+    
+    """
     try:
         with engine.connect() as connection:
-            result = connection.execute(text(sql_query))
+            result = connection.execute(text("select * from products;"))
 
         return {"database": result.scalar()}
 

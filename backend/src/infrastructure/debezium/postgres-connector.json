@@ -1,24 +1,26 @@
 {
-  "name": "postgres-documents-connector",
+  "name": "postgres-products-connector",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "tasks.max": "1",
 
-    "database.hostname": "postgres",
+    "database.hostname": "rag-postgres",
     "database.port": "5432",
-    "database.user": "abhay",
-    "database.password": "password123",
+    "database.user": "debezium",
+    "database.password": "dbz_password",
     "database.dbname": "ragdb",
 
     "topic.prefix": "ragdb",
 
     "plugin.name": "pgoutput",
-    "slot.name": "debezium_documents",
+    "slot.name": "debezium_products",
     "publication.name": "dbz_publication",
     "publication.autocreate.mode": "disabled",
 
     "schema.include.list": "public",
     "table.include.list": "public.products",
+
+    "decimal.handling.mode": "double",
 
     "snapshot.mode": "initial",
 
