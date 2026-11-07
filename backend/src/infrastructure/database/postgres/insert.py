@@ -2,26 +2,23 @@ from connections import engine
 from sqlalchemy import text
 
 def insert_to_db():
-    sql_query = """
-    INSERT INTO products (
-        product_name, product_id, brand_name, price, color, size
-    )
-    VALUES (
-        'Air Max 90', 'n-a-01aazb12', 'Nike', 130.991, 'White/Black', '10'
-    )
-    RETURNING product_id;
-    """
+    # read the sql query from the file migrations 002
+    with open("src/infrastructure/database/postgres/migrations/002_insert.up.sql", "r") as f:
+        sql_query = f.read()
     try:
-        # engine.begin() automatically commits the INSERT
+        # engine.begin() automatically commits the INSERT transaction
         with engine.begin() as connection:
-            result = connection.execute(text(sql_query))
-            inserted_id = result.scalar()
+            connection.execute(text(sql_query))
+            total_count = connection.execute(text("SELECT COUNT(*) FROM products;")).scalar()
 
-        return {"database": "Connected", "inserted_product_id": inserted_id}
+        return {
+            "status": "Success",
+            "total_products_in_db": total_count
+        }
 
     except Exception as e:
         return {
-            "database": "Disconnected",
+            "status": "Failed",
             "error": str(e)
         }
         

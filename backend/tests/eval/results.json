@@ -1,0 +1,36 @@
+{
+  "total_queries": 50,
+  "retrieval_triggered": 24,
+  "retrieval_skipped": 26,
+  "retrieval_reduction_pct": 52.0,
+  "routing_accuracy_pct": 90.0,
+  "latency_avg_s": 11.07,
+  "latency_p50_s": 7.06,
+  "latency_p95_s": 22.15,
+  "category_breakdown": {
+    "product_search": {
+      "total": 15,
+      "correct": 14,
+      "retrieved": 14,
+      "skipped": 1
+    },
+    "company_knowledge": {
+      "total": 10,
+      "correct": 8,
+      "retrieved": 8,
+      "skipped": 2
+    },
+    "general_knowledge": {
+      "total": 15,
+      "correct": 13,
+      "retrieved": 2,
+      "skipped": 13
+    },
+    "chitchat": {
+      "total": 10,
+      "correct": 10,
+      "retrieved": 0,
+      "skipped": 10
+    }
+  }
+}
