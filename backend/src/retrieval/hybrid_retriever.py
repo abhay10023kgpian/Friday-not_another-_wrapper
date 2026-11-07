@@ -181,32 +181,69 @@ def generate_from_context(state: State):
     )
     return {"answer": out.content, "context": context}
 
-graph = StateGraph(State)
-graph.add_node("retrieve", retrieve)
+def build_graph():
+    graph = StateGraph(State)
+    graph.add_node("retrieve", retrieve)
 
-graph.add_node("decide_retrieval", decide_retrieval)
+    graph.add_node("decide_retrieval", decide_retrieval)
 
-graph.add_node("generate_direct", generate_direct)
-graph.add_node("is_relevant", is_relevent)
-graph.add_node("generate_from_context", generate_from_context)
-
-
-graph.add_edge(START, "decide_retrieval")
-graph.add_conditional_edges("decide_retrieval", route_after_decision,{
-    "generate_direct":"generate_direct",
-    "retrieve": "retrieve"
-}
-)
-
-graph.add_edge("retrieve", "is_relevant")
-graph.add_edge("is_relevant", "generate_from_context")
-graph.add_edge("generate_from_context", END)
-graph.add_edge("generate_direct", END)
-
-app = graph.compile()
+    graph.add_node("generate_direct", generate_direct)
+    graph.add_node("is_relevant", is_relevent)
+    graph.add_node("generate_from_context", generate_from_context)
 
 
+    graph.add_edge(START, "decide_retrieval")
+    graph.add_conditional_edges("decide_retrieval", route_after_decision,{
+        "generate_direct":"generate_direct",
+        "retrieve": "retrieve"
+    }
+    )
 
-res = app.invoke({"question": "I want nike white shoes of size 4","need_retrieval": 0, "docs": [], "relevant_docs":[], "answer": ""})
+    graph.add_edge("retrieve", "is_relevant")
+    graph.add_edge("is_relevant", "generate_from_context")
+    graph.add_edge("generate_from_context", END)
+    graph.add_edge("generate_direct", END)
 
-print(res)
+    app = graph.compile()
+    
+    return app
+
+
+def generate_answer(question: str):
+    app = build_graph()
+    res = app.invoke(question)
+    return res
+# res = app.invoke({"question": "I want nike white shoes of size 4","need_retrieval": 0, "docs": [], "relevant_docs":[], "answer": ""})
+
+def chatbot():
+    
+    app = build_graph()
+    
+    print("Welcome to the RAG Chatbot! Type your questions below.")
+    
+    while True:
+        print(100*"-")
+        print(100*"-")
+        
+        question = input("Enter your next question (or 'exit' to quit): ")
+
+        if question.lower() == 'exit':
+            break
+        
+        res = app.invoke({"question": question,"need_retrieval": 0, "docs": [], "relevant_docs":[], "answer": ""})
+        print(f"Question: {res['question']}")
+        print(100*"-")
+        print("Answer:", res["answer"])
+        print(100*"-")
+        print("Need Retrieval:", res["need_retrieval"])
+        print(100*"-")
+        print("Docs:", res["docs"])
+        print(100*"-")
+        print("Relevant Docs:", res.get("relevant_docs", "No relevant docs available"))
+        print(100*"-")
+        print("Context:", res.get("context", "No context available"))
+        print(100*"-")
+
+    
+if __name__ == "__main__":
+    chatbot()

@@ -23,17 +23,16 @@ def transform_product(row):
         "content": content
     }
     
-sql_query = text("SELECT * FROM products")
 
 def fetch_products():
+    sql_query = text("SELECT * FROM products")
     with engine.connect() as connection:
         result = connection.execute(sql_query)
         products = [transform_product(row) for row in result.mappings()]
     return products
 
-def chunk():
+def chunk(products=None):
     #convert products into documents for embedding
-    products = fetch_products()
     
     docs = [Document(
         page_content=product["content"],
@@ -50,18 +49,42 @@ def chunk():
 
     return docs
 
-def embed_products():
-    print("Fetching products from the database...")
-    docs = chunk()
     
-    print(f"Fetched {len(docs)} products.")
+class ProductEmbedder:
+    def __init__(self, index_name : str = "product-documents"):
+        
+        self.vector_store = getStore(index_name)
+        
+        print("store created/loaded successfully")
 
-    vector_store = getStore("product-documents")
-    print("store created/loaded successfully")
-    
-    vector_store.add_documents(docs)
+    def embed_products(self):
+        print("Fetching products from the database...")
+        
+        transformed_products = fetch_products()
+        
+        print(f"Fetched {len(transformed_products)} products.")
+        
+        chunked_docs = chunk(transformed_products)
+        
+        print(f"Fetched {len(chunked_docs)} products.")
+        
+        self.vector_store.add_documents(chunked_docs)
+        
+        print("Successfully indexed products into the vector store!")
+        
+        
+    def kafka_embed_products(self, raw_products): ##used by kafka
+        
+        transformed_products = [transform_product(row) for row in raw_products]
+        chunked_docs = chunk(transformed_products)
+        
+        print(f"Fetched {len(chunked_docs)} products through kafka.")
 
-    print("Successfully indexed products into the vector store!")
-    
+        self.vector_store.add_documents(chunked_docs)
+
+        print("Successfully indexed products into the vector store!")
+        
+        
 if __name__ == "__main__":
-    print(embed_products())
+    embedder = ProductEmbedder()
+    print(embedder.embed_products())
