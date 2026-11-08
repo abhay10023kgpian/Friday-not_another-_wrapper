@@ -1,9 +1,9 @@
 import os
 from dotenv import load_dotenv
+from typing import Literal
 
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain_community.retrievers import PineconeHybridSearchRetriever
 from vector_store import getStore
+from src.nlp.text_to_sql import get_query_generation_prompt, execute_sql_query
 
 
 load_dotenv()
@@ -16,67 +16,53 @@ retriever = vector_store.as_retriever(
     search_kwargs={"k": 5}
 )
 
-from typing import List, TypedDict, Literal
-import time
+from typing import List, Literal
 import os
 
-from langchain_groq import ChatGroq
 from pydantic import BaseModel, Field
 
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 
 from langgraph.graph import StateGraph, START, END
+from src.retrieval.model import State, get_llm
 
-class State(TypedDict):
-    question : str
-    need_retrieval: bool
+llm = get_llm()
 
-    docs : list[Document]
-    relevant_docs : list[Document]
-
-    context: str
-    answer : str
-
-llm = ChatGroq(
-    model="openai/gpt-oss-120b", 
-    temperature=0.2,
-    max_tokens=800
-)
-
-def retrieve(State):
+def hybrid_retriever(State):
     q = State["question"]
     return {"docs" : retriever.invoke(q)}
 
-class RetrieveDecision(BaseModel):
-    should_retrieve: bool = Field(
+class RetrieveDecision(BaseModel) :
+    tool_selected: Literal["sql_retriever", "hybrid_retriever", "generate_direct"] = Field(
         ...,
-        description="True if external documents are needed to answer reliably, else False."
+        description="The tool that should be used to answer the question. Options are: 'sql_retriever', 'hybrid_retriever', or 'generate_direct'."
     )
     
-decide_retrieval_prompt = ChatPromptTemplate.from_messages(
+decide_tool_prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You decide whether retrieval is needed.\n"
+            "You decide which tool is needed you have access to shoes product sql database, and a hybrid search index of shoes products, nexaAi company policy, general knowledge.\n"
             "Return JSON that matches this schema:\n"
-            "{{'should_retrieve': boolean}}\n\n"
+            "{{'tool_selected': string}}\n\n"
             "Guidelines:\n"
-            "- should_retrieve=True if answering requires specific facts, citations, or info likely not in the model.\n"
-            "- should_retrieve=False for general explanations, definitions, or reasoning that doesn't need sources.\n"
-            "- If unsure, choose True."
+            "- tool_selected='sql_retriever' if the question requires querying a SQL database of shoes product information.\n"
+            "- tool_selected='hybrid_retriever' if the question requires searching a hybrid search index for shoes product.\n"
+            "- tool_selected='generate_direct' if the question can not be answered with above tools."
         ),
         ("human", "Question: {question}"),
     ]
 )
 
-should_retrieve_llm = llm.with_structured_output(RetrieveDecision)
+decide_tool_llm = llm.with_structured_output(RetrieveDecision)
 
-def decide_retrieval(state: State):
-    decision: RetrieveDecision = should_retrieve_llm.invoke(
-        decide_retrieval_prompt.format_messages(question=state["question"])
+def decide_tool(state: State):
+    decision: RetrieveDecision = decide_tool_llm.invoke(
+        decide_tool_prompt.format_messages(question=state["question"])
     )
-    return {"need_retrieval": decision.should_retrieve}
+    return {"tool_selected": decision.tool_selected}
+
 
 class RelvenceDecision(BaseModel):
     is_relevant : bool = Field(description="True if the document helps answer the question, else False.")
@@ -141,9 +127,11 @@ def generate_direct(state: State):
         "answer": out.content
     }
 
-def route_after_decision(state : State) -> Literal["retrieve", "generate_direct"]:
-    if state["need_retrieval"]:
-        return "retrieve"
+def route_after_decision(state : State) -> Literal["hybrid_retriever", "generate_direct", "sql_retriever"]:
+    if state["tool_selected"] == "hybrid_retriever":
+        return "hybrid_retriever"
+    elif state["tool_selected"] == "sql_retriever":
+        return "sql_retriever"
     return "generate_direct"
 
 rag_generation_prompt = ChatPromptTemplate.from_messages(
@@ -181,25 +169,40 @@ def generate_from_context(state: State):
     )
     return {"answer": out.content, "context": context}
 
+def sql_retriever(state: State):
+    
+    query_prompt = get_query_generation_prompt()
+    sql_query = llm.invoke(
+        query_prompt.format_messages(user_input=state["question"])
+    ).content
+
+    rows = execute_sql_query(sql_query)
+    docs = [Document(page_content=str(row)) for row in rows]
+
+    return {"docs": docs}
+
 def build_graph():
     graph = StateGraph(State)
-    graph.add_node("retrieve", retrieve)
-
-    graph.add_node("decide_retrieval", decide_retrieval)
-
+    graph.add_node("hybrid_retriever", hybrid_retriever)
+    graph.add_node("sql_retriever", sql_retriever)
+    graph.add_node("decide_tool", decide_tool)
+    
     graph.add_node("generate_direct", generate_direct)
     graph.add_node("is_relevant", is_relevent)
     graph.add_node("generate_from_context", generate_from_context)
 
 
-    graph.add_edge(START, "decide_retrieval")
-    graph.add_conditional_edges("decide_retrieval", route_after_decision,{
+    graph.add_edge(START, "decide_tool")
+    graph.add_conditional_edges("decide_tool", route_after_decision,{
         "generate_direct":"generate_direct",
-        "retrieve": "retrieve"
+        "hybrid_retrieval": "hybrid_retriever",
+        "sql_retrieval": "sql_retriever"
     }
     )
 
-    graph.add_edge("retrieve", "is_relevant")
+    graph.add_edge("hybrid_retriever", "is_relevant")
+    graph.add_edge("sql_retriever", "is_relevant")
+    
     graph.add_edge("is_relevant", "generate_from_context")
     graph.add_edge("generate_from_context", END)
     graph.add_edge("generate_direct", END)
@@ -230,7 +233,7 @@ def chatbot():
         if question.lower() == 'exit':
             break
         
-        res = app.invoke({"question": question,"need_retrieval": 0, "docs": [], "relevant_docs":[], "answer": ""})
+        res = app.invoke({"question": question,"tool_selected": "generate_direct", "docs": [], "relevant_docs":[], "answer": ""})
         print(f"Question: {res['question']}")
         print(100*"-")
         print("Answer:", res["answer"])
@@ -247,3 +250,5 @@ def chatbot():
     
 if __name__ == "__main__":
     chatbot()
+    # print(build_graph())
+    # print(decide_tool({"question": "I want nike white shoes of size 4","tool_selected": "generate_direct", "docs": [], "relevant_docs":[], "answer": ""}))
