@@ -23,6 +23,7 @@ from pydantic import BaseModel, Field
 
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage, HumanMessage
 
 from langgraph.graph import StateGraph, START, END
 from src.retrieval.model import State, get_llm
@@ -33,60 +34,72 @@ def hybrid_retriever(State):
     q = State["question"]
     return {"docs" : retriever.invoke(q)}
 
-class RetrieveDecision(BaseModel) :
-    tool_selected: Literal["sql_retriever", "hybrid_retriever", "generate_direct"] = Field(
-        ...,
-        description="The tool that should be used to answer the question. Options are: 'sql_retriever', 'hybrid_retriever', or 'generate_direct'."
-    )
-    
 decide_tool_prompt = ChatPromptTemplate.from_messages(
     [
-        (
-            "system",
-            "You decide which tool is needed you have access to shoes product sql database, and a hybrid search index of shoes products, nexaAi company policy, general knowledge.\n"
-            "Return JSON that matches this schema:\n"
-            "{{'tool_selected': string}}\n\n"
-            "Guidelines:\n"
-            "- tool_selected='sql_retriever' if the question requires querying a SQL database of shoes product information.\n"
-            "- tool_selected='hybrid_retriever' if the question requires searching a hybrid search index for shoes product.\n"
-            "- tool_selected='generate_direct' if the question can not be answered with above tools."
+        SystemMessage(
+            content="You are a query router. Reply with exactly one word, nothing else."
         ),
-        ("human", "Question: {question}"),
+        HumanMessage(
+            content=(
+                "Our store DB has a 'products' table with columns: id, product_name, product_id, brand_name, price, color, size.\n\n"
+                "sql_retriever = price, brand, size, color, list, filter, count, sort, cheapest, expensive, specific product lookup\n"
+                "hybrid_retriever = recommendations, vague descriptions, company policy, fuzzy/partial match\n"
+                "generate_direct = chitchat, greetings, general knowledge, harmful SQL\n\n"
+                "shoes under 80 → sql_retriever\n"
+                "Nike shoes → sql_retriever\n"
+                "cheapest shoe → sql_retriever\n"
+                "size 9 shoes → sql_retriever\n"
+                "black shoes → sql_retriever\n"
+                "most expensive shoe → sql_retriever\n"
+                "Adidas between 100 and 150 → sql_retriever\n"
+                "kids shoes in stock → sql_retriever\n"
+                "comfortable running shoes → hybrid_retriever\n"
+                "return policy → hybrid_retriever\n"
+                "how to clean shoes → generate_direct\n"
+                "hello → generate_direct\n\n"
+                "Question: {question}\n"
+                "Answer:"
+            )
+        ),
     ]
 )
 
-decide_tool_llm = llm.with_structured_output(RetrieveDecision)
+VALID_TOOLS = {"sql_retriever", "hybrid_retriever", "generate_direct"}
 
 def decide_tool(state: State):
-    decision: RetrieveDecision = decide_tool_llm.invoke(
+    response = llm.invoke(
         decide_tool_prompt.format_messages(question=state["question"])
     )
-    return {"tool_selected": decision.tool_selected}
+    text = response.content.strip().lower()
+
+    for tool in ["sql_retriever", "hybrid_retriever", "generate_direct"]:
+        if tool in text:
+            return {"tool_selected": tool}
+
+    return {"tool_selected": "hybrid_retriever"}
 
 
 class RelvenceDecision(BaseModel):
-    is_relevant : bool = Field(description="True if the document helps answer the question, else False.")
+    is_relevant: bool = Field(description="True if the document helps answer the question, else False.")
 
 is_relevant_prompt = ChatPromptTemplate.from_messages(
-    [   
-        (
-            "system",
-            "You are judging document relevance.\n"
-            "Return JSON that matches this schema:\n"
-            "{{'is_relevant': boolean}}\n\n"
-            "A document is relevant if it contains information useful for answering the question."
+    [
+        SystemMessage(
+            content=(
+                "You are judging document relevance.\n"
+                "Return JSON that matches this schema:\n"
+                "{{'is_relevant': boolean}}\n\n"
+                "A document is relevant if it contains information useful for answering the question."
+            )
         ),
-        (
-            "human",
-            "Question:\n{question}\n\nDocument:\n{document}"
-        )
+        HumanMessage(content="Question:\n{question}\n\nDocument:\n{document}"),
     ]
 )
 
-relvenceLLM = llm.with_structured_output(RelvenceDecision)
+relvenceLLM = llm.with_structured_output(RelvenceDecision, method="json_mode")
 
-def is_relevent(state : State):
-    relevent_docs : List[Document] = []
+def is_relevent(state: State):
+    relevent_docs: List[Document] = []
 
     for doc in state["docs"]:
         out = relvenceLLM.invoke(
@@ -98,21 +111,22 @@ def is_relevent(state : State):
 
         if out.is_relevant:
             relevent_docs.append(doc)
-    
+
     return {"relevant_docs": relevent_docs} 
 
 # res = (is_relevant_prompt | relvenceLLM).invoke({"question":"hi","document": "doc"})
 
 direct_generation_prompt = ChatPromptTemplate.from_messages(
     [
-        (
-            "system",
-            "Answer the question using only your general knowledge.\n"
-            "Do NOT assume access to external documents.\n"
-            "If you are unsure or the answer requires specific sources, say:\n"
-            "'I don't know based on my general knowledge.'"
+        SystemMessage(
+            content=(
+                "Answer the question using only your general knowledge.\n"
+                "Do NOT assume access to external documents.\n"
+                "If you are unsure or the answer requires specific sources, say:\n"
+                "'I don't know based on my general knowledge.'"
+            )
         ),
-        ("human", "{question}"),
+        HumanMessage(content="{question}"),
     ]
 )
 
@@ -136,18 +150,20 @@ def route_after_decision(state : State) -> Literal["hybrid_retriever", "generate
 
 rag_generation_prompt = ChatPromptTemplate.from_messages(
     [
-        (
-            "system",
-            "You are a business RAG assistant.\n"
-            "Answer the user's question using ONLY the provided context.\n"
-            "If the context does not contain enough information, say:\n"
-            "'No relevant document found.'\n"
-            "Do not use outside knowledge.\n"
+        SystemMessage(
+            content=(
+                "You are a business RAG assistant.\n"
+                "Answer the user's question using ONLY the provided context.\n"
+                "If the context does not contain enough information, say:\n"
+                "'No relevant document found.'\n"
+                "Do not use outside knowledge.\n"
+            )
         ),
-        (
-            "human",
-            "Question:\n{question}\n\n"
-            "Context:\n{context}\n"
+        HumanMessage(
+            content=(
+                "Question:\n{question}\n\n"
+                "Context:\n{context}\n"
+            )
         ),
     ]
 )
@@ -193,12 +209,11 @@ def build_graph():
 
 
     graph.add_edge(START, "decide_tool")
-    graph.add_conditional_edges("decide_tool", route_after_decision,{
-        "generate_direct":"generate_direct",
-        "hybrid_retrieval": "hybrid_retriever",
-        "sql_retrieval": "sql_retriever"
-    }
-    )
+    graph.add_conditional_edges("decide_tool", route_after_decision, {
+        "generate_direct": "generate_direct",
+        "hybrid_retriever": "hybrid_retriever",
+        "sql_retriever": "sql_retriever"
+    })
 
     graph.add_edge("hybrid_retriever", "is_relevant")
     graph.add_edge("sql_retriever", "is_relevant")
@@ -238,7 +253,7 @@ def chatbot():
         print(100*"-")
         print("Answer:", res["answer"])
         print(100*"-")
-        print("Need Retrieval:", res["need_retrieval"])
+        print("Tool Selected:", res.get("tool_selected"))
         print(100*"-")
         print("Docs:", res["docs"])
         print(100*"-")
