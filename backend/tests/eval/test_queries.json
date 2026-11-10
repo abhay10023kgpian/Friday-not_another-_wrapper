@@ -1,502 +1,502 @@
 [
   {
     "query": "hey do u have any shoes under 80 bucks?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "show me all the nike sneakers you got in stock",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "what options do you have in size 9?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "looking for some all white or mostly white kicks",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "how much are the adidas ultraboost light and what size is left?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "got any puma shoes in size 8 under $100?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "which is cheaper, the Vans Old Skool or Converse Chuck Taylor?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "im a size 10, what do you have for me?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "any green adidas shoes availble?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "whats the most expensive shoe in your store right now?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "do u carry reebok clasic leather?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "need size 11 or 12 shoes, whatcha got?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "show me all hoka shoes ordered by price descending",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "do you have the nike vaporfly next 3 in stock and what is the cost?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "show me new balance shoes between 90 and 150 dollars",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "what sizes do you have in adidas samba og?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "cheapest running shoes available in the database",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "give me a list of all under armour shoes you carry",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "do you have asics gel nimbus 26 or novablast 4?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "show me all shoes with red color in size 9.5",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "find puma deviate nitro or velocity nitro",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "any shoes priced under 50 dollars for kids?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "what is the price of the reebok question mid iverson?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "list all size 13 basketball shoes in stock",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "do you have vans knu skool or half cab in size 10?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "how many total products do you have from nike?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "show me all slides or sandals under 60 bucks",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "check if converse run star hike platform is in stock",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "top 3 most expensive new balance models",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "what colors do you have for the hoka bondi 8?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "show me black and white skate shoes",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "do you have the under armour curry 11 in stock?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "list all running shoes in size 10.5 under 160 dollars",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "what is the product id for adidas gazelle indoor?",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "show me all training shoes from nike and reebok",
-    "category": "product_search",
-    "expected_retrieval": true
+    "category": "product_filter",
+    "expected_tool": "sql_retriever"
   },
   {
     "query": "can u compare the Clifton 9 and Gel-Kayano 30 for me? which has better stability vs cushioning?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "tell me abt the New Balance Fresh Foam X 1080v13 technology and comfort",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what are the best shoes for long distance marathon training?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "i have flat feet and need good arch support, which shoes should i buy?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "recommend a durable shoe for daily gym workouts and heavy weightlifting",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "how does the Hoka Bondi 8 compare to the Asics Gel Nimbus 26 in terms of plush cushioning?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what makes the Nike Metcon 9 good for cross training and rope climbs?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "looking for a retro everyday lifestyle sneaker that goes well with casual clothes",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "which shoe is better for outdoor trail running, the Hoka Speedgoat 6 or Asics Gel Trabuco?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "recommend lightweight carbon-plated race day shoes for achieving personal records",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what is the difference between Nike Invincible Run 3 and React Infinity Run 4?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "i am on my feet all day at work, what shoes provide the best all-day standing comfort?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "explain the cushioning and bounce in the Puma Deviate Nitro 3",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "which skate shoe offers better boardfeel and impact protection, Vans Half Cab or Rowley?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what makes the New Balance 990v6 special compared to standard runners?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "suggest breathable summer sneakers that prevent foot overheating",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "recommend good recovery slides for sore feet after long runs",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "is the Adidas Adizero Adios Pro 3 suitable for beginners or strictly competitive runners?",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "best shoes for high arches and knee pain reduction",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "tell me about the Under Armour Project Rock 6 stability and grip",
-    "category": "hybrid_search",
-    "expected_retrieval": true
+    "category": "semantic_product",
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what is Friday's return policy if the shoes dont fit?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "how long does standard shiping usually take and how much does it cost?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "when was Friday founded and what's your brand story and mission?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "do your shoes come with any kind of warranty against manufacturing defects?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "do u guys take apple pay, google pay or paypal at checkout?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "where are your physical store locations? can i pick up in person?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "whats the customer service email or phone number for Friday support?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "is there a loyalty program or rewards points when i buy products?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "how do exchanges work if i want a different size or color?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "do you do price matching or offer bulk discounts according to your pricing rules?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what is the condition required for returned shoes to get a full refund?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "how long does it take for a refund to process back into my bank account?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "do you offer expedited or overnight shipping options?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what happens if my package arrives damaged or missing items?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "do you ship internationally outside the country?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "can I cancel or modify my order after placing it online?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "are student or military discounts available at checkout?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "how do I track my shipment once the order has been dispatched?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "are final sale or clearance items eligible for return?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what are the customer support working hours during weekends?",
     "category": "company_policies",
-    "expected_retrieval": true
+    "expected_tool": "hybrid_retriever"
   },
   {
     "query": "what's the actual difference between running shoes and everyday walking shoes?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "how do i clean mud off suede sneakers without ruining them??",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "what does 'drop' or heel-to-toe offset mean in running shoes?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "how can i stop my white canvas shoes from turning yellow after washing?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "are leather or mesh shoes better for sweaty feet in the summer?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "how do i convert US shoe sizes to EU and UK sizes?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "what socks look best with low-top retro sneakers and shorts?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "how tight should running shoes fit around the toes and midfoot?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "whats the best way to break in stiff leather kicks fast without blisters?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "what is pronation and how do i know if i overpronate or supinate?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "can i put my sneakers in the washing machine or will that wreck the glue?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "what's the difference between vulcanized soles and cupsoles on skate shoes?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "how often should a marathon runner replace their running shoes in miles?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "tips for getting bad odors and smells out of old gym shoes?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "how do you style chunky dad sneakers with loose baggy jeans?",
     "category": "general_knowledge",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "heyyy there!",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "thanks a bunch, appreciate the help!",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "who are you and are you a real person or an AI bot?",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "what kind of stuff can you help me with in this store?",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "k bye have a good one!",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "ummm i dont really know what shoe i want tbh",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "good morning, how are things going?",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "you're awesome, thank u so much",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "help pls",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   },
   {
     "query": "tell me a funny shoe joke",
     "category": "chitchat",
-    "expected_retrieval": false
+    "expected_tool": "generate_direct"
   }
 ]

@@ -35,15 +35,15 @@ def execute_sql_query(query: str):
             return rows
     except Exception as e:
         print(f"Error executing SQL query: {e}")
-        return
+        return []
 
 def debug_sql_query():
-    quesiton = "I want to insert a new product into the products table with product_name 'Nike Air Max', product_id '12345', brand_name 'Nike', price 150, color 'Red', size 10. Please provide the SQL query for this operation."
-    
+    # question = "I want to insert a new product into the products table with product_name 'Nike Air Max', product_id '12345', brand_name 'Nike', price 150, color 'Red', size 10. Please provide the SQL query for this operation."
+    question = "i want shoes under 80 price"
     query_prompt = get_query_generation_prompt()
     llm = get_llm()
     query = llm.invoke(
-        query_prompt.format_messages(user_input=quesiton)
+        query_prompt.format_messages(user_input=question)
     ).content
     
     print(query)
