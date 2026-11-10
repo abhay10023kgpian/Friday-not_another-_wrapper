@@ -1,50 +1,53 @@
 {
   "total_queries": 100,
-  "tool_distribution": {
-    "sql_retriever": 33,
-    "hybrid_retriever": 25,
-    "generate_direct": 1
+  "overall_accuracy_pct": 95.0,
+  "latency": {
+    "avg_s": 12.54,
+    "p50_s": 12.24,
+    "p95_s": 24.86
   },
-  "routing_accuracy_pct": 58.0,
-  "retrieval_reduction_pct": 1.0,
-  "latency_avg_s": 8.43,
-  "latency_p50_s": 16.59,
-  "latency_p95_s": 25.7,
-  "category_breakdown": {
-    "product_search": {
-      "total": 35,
-      "correct": 35,
+  "confusion_matrix": {
+    "sql_retriever": {
       "sql_retriever": 33,
       "hybrid_retriever": 2,
       "generate_direct": 0
     },
-    "hybrid_search": {
-      "total": 20,
-      "correct": 20,
+    "hybrid_retriever": {
+      "sql_retriever": 1,
+      "hybrid_retriever": 37,
+      "generate_direct": 2
+    },
+    "generate_direct": {
       "sql_retriever": 0,
-      "hybrid_retriever": 20,
-      "generate_direct": 0
+      "hybrid_retriever": 0,
+      "generate_direct": 25
+    }
+  },
+  "category_stats": {
+    "product_filter": {
+      "total": 35,
+      "correct": 33
+    },
+    "semantic_product": {
+      "total": 20,
+      "correct": 17
     },
     "company_policies": {
       "total": 20,
-      "correct": 3,
-      "sql_retriever": 0,
-      "hybrid_retriever": 3,
-      "generate_direct": 1
+      "correct": 20
     },
     "general_knowledge": {
       "total": 15,
-      "correct": 0,
-      "sql_retriever": 0,
-      "hybrid_retriever": 0,
-      "generate_direct": 0
+      "correct": 15
     },
     "chitchat": {
       "total": 10,
-      "correct": 0,
-      "sql_retriever": 0,
-      "hybrid_retriever": 0,
-      "generate_direct": 0
+      "correct": 10
     }
+  },
+  "tool_distribution": {
+    "sql_retriever": 34,
+    "hybrid_retriever": 39,
+    "generate_direct": 27
   }
 }

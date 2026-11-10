@@ -1,0 +1,23 @@
+=========================================================================================================
+  BENCHMARK SUMMARY RESULTS
+=========================================================================================================
+
+  Total queries:               100
+  Overall Routing Accuracy:    95.0% (95/100 correct)
+  Average Latency:             12.54s (P50: 12.24s | P95: 24.86s)
+
+  Confusion Matrix (Rows = Expected, Columns = Predicted by Router):
+  ---------------------------------------------------------------------------
+  Expected Tool          |   SQL Pred |  Hybrid Pred |  Direct Pred |   Accuracy
+  ---------------------------------------------------------------------------
+  sql_retriever          |         33 |            2 |            0 |      94.3%
+  hybrid_retriever       |          1 |           37 |            2 |      92.5%
+  generate_direct        |          0 |            0 |           25 |     100.0%
+  ---------------------------------------------------------------------------
+
+  Per-Category Accuracy:
+    • product_filter      : 33/35 (94.3%)
+    • semantic_product    : 17/20 (85.0%)
+    • company_policies    : 20/20 (100.0%)
+    • general_knowledge   : 15/15 (100.0%)
+    • chitchat            : 10/10 (100.0%)
